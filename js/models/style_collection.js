@@ -23,24 +23,74 @@
 //  OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED 
 //  OF THE POSSIBILITY OF SUCH DAMAGE.
 
+ReadiumSDK.Collections.StyleCollection = function() {
 
-/**
- @class ReadiumSDK.Models.BookmarkData
- */
-ReadiumSDK.Models.BookmarkData = function(idref, contentCFI) {
+    var _styles = [];
 
-    /**
-     * spine item idref
-     * @property idref
-     * @type {string}
-     */
-    this.idref = idref;
+    this.clear = function() {
+        _styles.length = 0;
 
-    /**
-     * cfi of the first visible element
-     * @property contentCFI
-     * @type {string}
-     */
-    this.contentCFI = contentCFI;
+    };
+
+    this.findStyle = function(selector) {
+
+        var count = _styles.length;
+        for(var i = 0; i < count; i++) {
+            if(_styles[i].selector === selector) {
+                return _styles[i];
+            }
+        }
+
+        return undefined;
+    };
+
+    this.addStyle = function(selector, declarations) {
+
+        var style = this.findStyle(selector);
+
+        if(style) {
+            style.setDeclarations(declarations);
+        }
+        else {
+            style = new ReadiumSDK.Models.Style(selector, declarations);
+            _styles.push(style);
+        }
+
+        return style;
+    };
+
+    this.removeStyle = function(selector) {
+        
+        var count = _styles.length;
+
+        for(var i = 0; i < count; i++) {
+
+            if(_styles[i].selector === selector) {
+                _styles.splice(i, 1);
+                return;
+            }
+        }
+    };
+
+    this.getStyles = function() {
+        return _styles;
+    };
+
+    this.resetStyleValues = function() {
+
+        var count = _styles.length;
+
+        for(var i = 0; i < count; i++) {
+
+            var style = _styles[i];
+            var declarations = style.declarations;
+
+            for(var prop in declarations) {
+                if(declarations.hasOwnProperty(prop)) {
+                    declarations[prop] = '';
+                }
+            }
+        }
+    }
 
 };

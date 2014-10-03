@@ -24,23 +24,18 @@
 //  OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
-/**
- @class ReadiumSDK.Models.BookmarkData
- */
-ReadiumSDK.Models.BookmarkData = function(idref, contentCFI) {
+ReadiumSDK.Models.Style = function(selector, declarations) {
 
-    /**
-     * spine item idref
-     * @property idref
-     * @type {string}
-     */
-    this.idref = idref;
+    this.selector = selector;
+    this.declarations = declarations;
 
-    /**
-     * cfi of the first visible element
-     * @property contentCFI
-     * @type {string}
-     */
-    this.contentCFI = contentCFI;
+    this.setDeclarations = function(declarations) {
 
+        for(var prop in declarations) {
+            if(declarations.hasOwnProperty(prop)) {
+                this.declarations[prop] = declarations[prop];
+            }
+        }
+
+    }
 };
